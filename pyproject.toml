@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "browsertasklab"
+version = "0.1.0"
+description = "An evaluated, bounded browser agent for synthetic local workflows"
+readme = "README.md"
+requires-python = ">=3.12,<3.15"
+license = "MIT"
+dependencies = [
+  "fastapi==0.162.2", "uvicorn==0.54.0", "pydantic==2.14.3",
+  "pydantic-settings==2.16.2", "playwright==1.64.1",
+  "langgraph==1.2.20", "openai==3.48.0", "httpx==0.28.1",
+  "python-dotenv==1.2.4"
+]
+
+[project.optional-dependencies]
+dev = ["pytest==9.2.0", "pytest-asyncio==1.4.1.post1"]
+
+[project.scripts]
+browsertasklab = "browsertasklab.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+browsertasklab = ["static/*", "evaluation/scenarios.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+markers = ["e2e: launches a real Chromium browser against a local app"]

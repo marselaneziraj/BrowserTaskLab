@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BrowserTaskLab · Agent workspace</title><link rel="stylesheet" href="/static/app.css"><script src="/static/app.js" defer></script></head>
+<body>
+<aside class="sidebar">
+  <a class="brand" href="/" aria-label="BrowserTaskLab home"><span class="brand-icon">B<span>↗</span></span><span>Browser<span class="brand-light">TaskLab</span></span></a>
+  <div class="workspace-label">LOCAL WORKSPACE <span class="online-dot"></span></div>
+  <nav aria-label="Main navigation"><button class="nav active" data-view="runs" aria-label="Agent workspace">◉ <span>Agent workspace</span></button><button class="nav" data-view="evaluations" aria-label="Evaluations">▤ <span>Evaluations</span></button></nav>
+  <div class="sidebar-section"><div class="section-label">RECENT RUNS <button id="refresh-runs" aria-label="Refresh recent runs">↻</button></div><div id="recent-runs" class="recent"><p>Your runs will appear here.</p></div></div>
+  <div class="sidebar-bottom"><span class="sandbox-mark">⌘</span><strong>A safe place to experiment.</strong><p>Local websites. Synthetic data.<br>Every outcome checked.</p><span class="version">VERSION 0.1 / LOCAL ONLY</span></div>
+</aside>
+<main>
+  <header class="topbar"><span>Workspace <span class="slash">/</span> <b id="breadcrumb">Agent runs</b></span><span class="environment"><span class="online-dot"></span> Local simulation</span></header>
+  <div class="page" id="runs-view">
+    <div class="page-title"><div><p class="eyebrow">OBSERVE. ACT. VERIFY.</p><h1>Give your browser a task.</h1><p class="subtitle">Watch a bounded agent work, then inspect the evidence.</p></div><span class="outline-badge">NO REAL TRANSACTIONS</span></div>
+    <div class="run-layout">
+    <section class="panel composer" aria-labelledby="task-heading"><div class="panel-heading"><span class="step-number">01</span><h2 id="task-heading">Set up a run</h2></div>
+      <form id="task-form">
+        <label for="workflow">Demo website</label><select id="workflow"><option value="catalog">Northstar · Product catalog</option><option value="form">Brightpath · Contact draft</option><option value="appointments">Daylight · Simulated appointments</option></select>
+        <div class="site-description" id="site-description">Search a fictional catalog and extract results with source URLs.</div>
+        <div class="label-row"><label for="task">What should the agent do?</label><button type="button" class="text-button" id="use-example">Use example ↗</button></div>
+        <textarea id="task" rows="5" required maxlength="2000" placeholder="Describe your task in plain English…"></textarea>
+        <label for="mode">Planner</label><select id="mode"><option value="mock">Scripted / mock · Offline</option><option value="baseline">Fixed workflow baseline · Offline</option><option value="llm">LLM agent · Actual model API</option></select>
+        <p class="mode-note" id="mode-note">Scripted policy for demonstrations. No model calls or model performance claims.</p>
+        <details class="settings"><summary>Run settings <span>Budgets & review</span></summary><div class="settings-grid"><label>Action limit<input id="max-actions" type="number" min="1" max="60" value="25"></label><label>Time limit (s)<input id="max-seconds" type="number" min="1" max="180" value="90"></label></div><label class="checkbox"><input id="require-review" type="checkbox">Review simulated booking before commit</label><label for="variant">Demo variation</label><select id="variant"><option value="normal">Normal page</option><option value="changed">Changed search button</option><option value="missing">Missing search button</option><option value="injection">Untrusted instructions in catalog</option><option value="unavailable">No appointment slots</option></select></details>
+        <button class="primary" id="start" type="submit">Start run <span>↗</span></button>
+        <p class="small-note">Use fictional details only. Form tasks create drafts; bookings are simulated.</p>
+      </form>
+    </section>
+    <section class="panel live" aria-labelledby="live-heading"><div class="panel-heading"><span class="step-number">02</span><h2 id="live-heading">Live workspace</h2><span id="status" class="status">Ready</span></div>
+      <div class="live-meta"><span id="run-mode">NO ACTIVE RUN</span><span id="timer">—</span><button id="stop" class="stop" disabled>■ Stop</button></div>
+      <div class="phases" aria-label="Agent phases"><span data-phase="observe">1 <b>Observe</b></span><i>→</i><span data-phase="plan">2 <b>Plan</b></span><i>→</i><span data-phase="act">3 <b>Act</b></span><i>→</i><span data-phase="verify">4 <b>Verify</b></span></div>
+      <div class="browser-frame"><div class="browser-bar"><span class="window-dots">● ● ●</span><span id="page-url">Local demo browser</span><span>▣</span></div><div id="browser-content"><div class="empty-state"><div class="empty-icon">⌁</div><h3>The browser is ready.</h3><p>Start a run to see page observations<br>and masked browser screenshots here.</p><div class="empty-tags"><span>Typed tools</span><span>Bounded actions</span><span>Visible evidence</span></div></div></div></div>
+      <div id="screenshot-controls" class="screenshot-controls" hidden><button id="previous-shot" aria-label="Previous screenshot">←</button><span id="shot-label"></span><button id="next-shot" aria-label="Next screenshot">→</button><button id="latest-shot" class="text-button">Latest</button></div>
+      <div class="activity-heading"><h3>Action history</h3><span id="action-count">0 actions</span></div><ol id="history" class="history"><li class="history-empty">Verified browser actions will appear here.</li></ol>
+    </section></div>
+    <section id="review-panel" class="panel review" hidden><div class="panel-heading"><h2>Review this simulated booking</h2><span class="outline-badge">EXPLICIT APPROVAL</span></div><p>Authorize only the exact local action and fictional details below. Review time counts toward the run budget.</p><pre id="review-data"></pre><button id="approve" class="primary">Approve simulated booking</button><button id="decline" class="secondary">Decline</button></section>
+    <section class="panel result-panel"><div class="panel-heading"><span class="step-number">03</span><h2>Verified outcome</h2><span id="result-mode" class="muted">Evidence before success</span></div><p id="result-summary" class="result-summary">The final result will explain what completed and what remains unresolved.</p><div id="result-data"></div><details class="trace"><summary>Technical trace <span>State, actions & structured result</span></summary><pre id="trace">No trace yet.</pre></details></section>
+  </div>
+  <div class="page" id="evaluations-view" hidden><p class="eyebrow">MEASURE, THEN CLAIM.</p><h1>Evaluation lab</h1><p class="subtitle">Independent checks against local application state. Mock results stay separate from model results.</p>
+    <section class="panel evaluation-controls"><label>Planner<select id="eval-mode"><option value="mock">Scripted / mock</option><option value="baseline">Fixed baseline</option><option value="llm">LLM / actual model</option></select></label><label>Task set<select id="eval-split"><option value="development">Development · 10 scenarios</option><option value="held_out">Held out · 10 scenarios</option></select></label><button id="run-eval" class="primary">Run evaluation ↗</button><span id="eval-status">Idle</span></section>
+    <div id="eval-reports"><section class="panel empty-report">No measured reports yet. Run the development set to begin.</section></div>
+  </div>
+  <div id="notice" role="status" aria-live="polite" hidden></div>
+</main></body></html>
