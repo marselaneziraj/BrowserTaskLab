@@ -2,6 +2,11 @@
 
 **An evaluated browser agent for small, synthetic local tasks.**
 
+[![Tests](https://github.com/marselaneziraj/BrowserTaskLab/actions/workflows/test.yml/badge.svg)](https://github.com/marselaneziraj/BrowserTaskLab/actions/workflows/test.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.12–3.14](https://img.shields.io/badge/Python-3.12%E2%80%933.14-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Playwright](https://img.shields.io/badge/Browser%20automation-Playwright-2EAD33?logo=playwright&logoColor=white)](https://playwright.dev/)
+
 BrowserTaskLab accepts an English task, inspects a page, proposes one typed action,
 executes it with Playwright, and checks visible evidence before reporting an outcome.
 LangGraph controls the bounded workflow; FastAPI serves the interface and three
@@ -273,6 +278,4 @@ are excluded. Future runs generate ignored `.runtime/` data. After stopping the 
 .\scripts\clean.ps1 -IncludeEnvironment
 ```
 
-The script validates scope and preserves ignored `.env` for local use. No `.env` is
-shipped. Upload this folder's contents to GitHub, including dotfiles and `.github`.
-Project code is MIT licensed.
+
